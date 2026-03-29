@@ -248,3 +248,8 @@ http://localhost:5000/api/v1/docs
 - The backend is built as an ESM project (`"type": "module"` in package.json)
 - Prisma client is generated inside `src/generated/prisma`
 - Use `.env` to configure database credentials and ports dynamically
+- Project has a `schema.sql` file that lists the complete sql schema for this project.
+- You can also `generate schema.sql` via:
+```bash
+npm run export:schema
+```
