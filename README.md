@@ -164,68 +164,82 @@ http://localhost:5000/api/v1/docs
 
 ## Project Structure
 ```bash
-\---src
-    |   app.ts
-    |   index.ts
-    |
-    +---config
-    |       cors.ts
-    |       env.ts
-    |       prisma.ts
-    |
-    +---generated
-    |   \---prisma
-    |       |   browser.ts
-    |       |   client.ts
-    |       |   commonInputTypes.ts
-    |       |   enums.ts
-    |       |   models.ts
-    |       |
-    |       +---internal
-    |       |       class.ts
-    |       |       prismaNamespace.ts
-    |       |       prismaNamespaceBrowser.ts
-    |       |
-    |       \---models
-    |               Booking.ts
-    |               Event.ts
-    |               EventAttendance.ts
-    |               User.ts
-    |
-    +---middleware
-    |       globalErrorHandler.ts
-    |       validateRequest.ts
-    |
-    +---modules
-    |   +---booking
-    |   |       booking.controller.ts
-    |   |       booking.router.ts
-    |   |       booking.service.ts
-    |   |       booking.validator.ts
-    |   |
-    |   +---event
-    |   |       event.controller.ts
-    |   |       event.router.ts
-    |   |       event.service.ts
-    |   |       event.validator.ts
-    |   |
-    |   \---user
-    |           user.controller.ts
-    |           user.router.ts
-    |           user.service.ts
-    |           user.validator.ts
-    |
-    +---routes
-    |       v1.ts
-    |
-    +---types
-    |       booking.types.ts
-    |
-    \---utils
-            apiError.ts
-            catchAsync.ts
-            pagination.ts
-            pick.ts
+./
+├── .dockerignore*
+├── .env*
+├── .env.example*
+├── .eslintignore*
+├── .eslintrc*
+├── .gitignore*
+├── .prettierrc*
+├── docker-compose.yaml*
+├── dockerfile*
+├── package-lock.json*
+├── package.json*
+├── prisma/
+│   ├── migrations/
+│   │   ├── 20260329091735_init/
+│   │   │   └── migration.sql*
+│   │   ├── 20260329130231_add_text_description/
+│   │   │   └── migration.sql*
+│   │   └── migration_lock.toml*
+│   └── schema.prisma*
+├── prisma.config.ts*
+├── schema.sql*
+├── src/
+│   ├── app.ts*
+│   ├── config/
+│   │   ├── cors.ts*
+│   │   ├── env.ts*
+│   │   └── prisma.ts*
+│   ├── generated/
+│   │   └── prisma/
+│   │       ├── browser.ts*
+│   │       ├── client.ts*
+│   │       ├── commonInputTypes.ts*
+│   │       ├── enums.ts*
+│   │       ├── internal/
+│   │       │   ├── class.ts*
+│   │       │   ├── prismaNamespace.ts*
+│   │       │   └── prismaNamespaceBrowser.ts*
+│   │       ├── models/
+│   │       │   ├── Booking.ts*
+│   │       │   ├── Event.ts*
+│   │       │   ├── EventAttendance.ts*
+│   │       │   └── User.ts*
+│   │       └── models.ts*
+│   ├── index.ts*
+│   ├── middleware/
+│   │   ├── globalErrorHandler.ts*
+│   │   └── validateRequest.ts*
+│   ├── modules/
+│   │   ├── booking/
+│   │   │   ├── booking.controller.ts*
+│   │   │   ├── booking.router.ts*
+│   │   │   ├── booking.service.ts*
+│   │   │   └── booking.validator.ts*
+│   │   ├── event/
+│   │   │   ├── event.controller.ts*
+│   │   │   ├── event.router.ts*
+│   │   │   ├── event.service.ts*
+│   │   │   └── event.validator.ts*
+│   │   └── user/
+│   │       ├── user.controller.ts*
+│   │       ├── user.router.ts*
+│   │       ├── user.service.ts*
+│   │       └── user.validator.ts*
+│   ├── routes/
+│   │   └── v1.ts*
+│   ├── types/
+│   │   └── booking.types.ts*
+│   └── utils/
+│       ├── apiError.ts*
+│       ├── catchAsync.ts*
+│       ├── pagination.ts*
+│       └── pick.ts*
+├── swagger.yaml*
+├── tsconfig.json*
+└── tsup.config.js*
 ```
 
 ---
