@@ -105,3 +105,33 @@ Full request and response schemas, including error responses, are available in `
 
 ```bash
 cp .env.example .env
+```
+
+### Running Locally (without Docker)
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Generate Prisma client and apply migrations:
+```bash
+npx prisma migrate dev --name init_db
+```
+
+3. Build the project (TypeScript → JS):
+```bash
+npm run build
+```
+
+4. Start the server:
+```bash
+npm run start
+```
+#### OR
+For development with live reload, use:
+```bash
+npm run dev
+```
+
