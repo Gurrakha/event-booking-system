@@ -18,7 +18,7 @@ This repository contains the backend implementation of a **Mini Event Management
   - [Running via Docker](#running-via-docker)  
 - [OpenAPI Documentation](#openapi-documentation)  
 - [Project Structure](#project-structure)  
-- [License](#license)  
+- [Notes](#notes)  
 
 ---
 
@@ -129,9 +129,108 @@ npm run build
 ```bash
 npm run start
 ```
+
 #### OR
+
 For development with live reload, use:
 ```bash
 npm run dev
 ```
 
+## Running via Docker
+1. Make sure Docker and Docker Compose are installed.
+2. Start the containers:
+```bash
+docker-compose up --build
+```
+3. Backend app uses the port defined in .env (PORT)
+4. MySQL container exposed on `3306`
+5. Prisma migrations are automatically applied at container start
+6. Access the API:
+```bash
+http://localhost:<PORT>/api/v1
+```
+
+---
+
+## OpenAPI Documentation
+- File: `swagger.yaml`
+- Available endpoints with request/response schemas, success, and error formats
+- where to access:
+```bash
+http://localhost:5000/api/v1/docs
+```
+---
+
+## Project Structure
+`
+\---src
+    |   app.ts
+    |   index.ts
+    |
+    +---config
+    |       cors.ts
+    |       env.ts
+    |       prisma.ts
+    |
+    +---generated
+    |   \---prisma
+    |       |   browser.ts
+    |       |   client.ts
+    |       |   commonInputTypes.ts
+    |       |   enums.ts
+    |       |   models.ts
+    |       |
+    |       +---internal
+    |       |       class.ts
+    |       |       prismaNamespace.ts
+    |       |       prismaNamespaceBrowser.ts
+    |       |
+    |       \---models
+    |               Booking.ts
+    |               Event.ts
+    |               EventAttendance.ts
+    |               User.ts
+    |
+    +---middleware
+    |       globalErrorHandler.ts
+    |       validateRequest.ts
+    |
+    +---modules
+    |   +---booking
+    |   |       booking.controller.ts
+    |   |       booking.router.ts
+    |   |       booking.service.ts
+    |   |       booking.validator.ts
+    |   |
+    |   +---event
+    |   |       event.controller.ts
+    |   |       event.router.ts
+    |   |       event.service.ts
+    |   |       event.validator.ts
+    |   |
+    |   \---user
+    |           user.controller.ts
+    |           user.router.ts
+    |           user.service.ts
+    |           user.validator.ts
+    |
+    +---routes
+    |       v1.ts
+    |
+    +---types
+    |       booking.types.ts
+    |
+    \---utils
+            apiError.ts
+            catchAsync.ts
+            pagination.ts
+            pick.ts
+`
+
+---
+
+## Notes
+- The backend is built as an ESM project (`"type": "module"` in package.json)
+- Prisma client is generated inside `src/generated/prisma`
+- Use `.env` to configure database credentials and ports dynamically
