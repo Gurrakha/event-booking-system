@@ -107,7 +107,7 @@ Full request and response schemas, including error responses, are available in `
 cp .env.example .env
 ```
 
-### Running Locally (without Docker)
+### Running Locally
 
 1. Install dependencies:
 
