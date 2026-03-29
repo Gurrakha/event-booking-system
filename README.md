@@ -249,7 +249,7 @@ http://localhost:5000/api/v1/docs
 - Prisma client is generated inside `src/generated/prisma`
 - Use `.env` to configure database credentials and ports dynamically
 - Project has a `schema.sql` file that lists the complete sql schema for this project.
-- You can also `generate schema.sql` via:
+- You can also generate `schema.sql` file via this command:
 ```bash
 npm run export:schema
 ```
