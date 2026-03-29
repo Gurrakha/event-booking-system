@@ -1,6 +1,4 @@
- Event Booking System (Mini Event Management System)
-
-**Selection Test: Junior Node.js Backend Developer**  
+ #Event Booking System (Mini Event Management System)
 
 This repository contains the backend implementation of a **Mini Event Management System** where users can browse events and book tickets. Built using Node.js, TypeScript, Prisma v7, MySQL, and Docker. It also includes full OpenAPI/Swagger documentation.
 
