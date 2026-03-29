@@ -1,0 +1,450 @@
+openapi: 3.0.0
+info:
+  title: Event Booking API
+  version: 1.0.0
+  description: Mini Event Management System
+
+servers:
+  - url: http://localhost:5000/api/v1
+components:
+  schemas:
+    BaseApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Something went wrong
+        errors:
+          type: array
+          items:
+            type: object
+        stack:
+          type: string
+          description: Only present in development
+
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 2
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 10
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        totalCapacity:
+          type: integer
+        remainingTickets:
+          type: integer
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        eventId:
+          type: integer
+        code:
+          type: string
+        bookingDate:
+          type: string
+          format: date-time
+
+    BookingEvent:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Project Hail Mary
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+
+    BookingWithEvent:
+      allOf:
+        - $ref: '#/components/schemas/Booking'
+        - type: object
+          properties:
+            event:
+              $ref: '#/components/schemas/BookingEvent'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+  parameters:
+    SearchParam:
+      in: query
+      name: search
+      schema:
+        type: string
+      description: Search by keyword
+
+    PageParam:
+      in: query
+      name: page
+      schema:
+        type: integer
+        default: 1
+
+    LimitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        default: 10
+
+    SortByParam:
+      in: query
+      name: sort_by
+      schema:
+        type: string
+        example: id
+
+    SortOrderParam:
+      in: query
+      name: sort_order
+      schema:
+        type: string
+        enum: [asc, desc]
+
+paths:
+  /users:
+    post:
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Return the created user record
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        $ref: '#/components/schemas/User'
+
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '409':
+          description: Duplicate email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      summary: Get paginated users
+      parameters:
+        - $ref: '#/components/parameters/SearchParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortByParam'
+        - $ref: '#/components/parameters/SortOrderParam'
+      responses:
+        '200':
+          description: Return paginated users
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          meta:
+                            $ref: '#/components/schemas/PaginationMeta'
+                          data:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/User'
+  /users/{id}/bookings:
+    get:
+      summary: Get paginated user bookings
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: User ID
+
+        - $ref: '#/components/parameters/SearchParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortByParam'
+        - $ref: '#/components/parameters/SortOrderParam'
+
+      responses:
+        '200':
+          description: Return paginated user bookings
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          meta:
+                            $ref: '#/components/schemas/PaginationMeta'
+                          data:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/BookingWithEvent'
+  /events:
+    post:
+      summary: Create an event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - date
+                - totalCapacity
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                date:
+                  type: string
+                  format: date-time
+                totalCapacity:
+                  type: integer
+      responses:
+        '201':
+          description: Return the created event record
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        $ref: '#/components/schemas/Event'
+
+    get:
+      summary: Get paginated events
+      parameters:
+        - $ref: '#/components/parameters/SearchParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortByParam'
+        - $ref: '#/components/parameters/SortOrderParam'
+      responses:
+        '200':
+          description: Return paginated events
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          meta:
+                            $ref: '#/components/schemas/PaginationMeta'
+                          data:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Event'
+  /events/{id}/attendance:
+    post:
+      summary: Mark attendance of user for event via code
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Event ID
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - code
+              properties:
+                code:
+                  type: string
+      responses:
+        '201':
+          description: Returns the count of tickets booked. Current schema only supports 1 ticket per booking
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          attendanceId:
+                            type: integer
+                          userId:
+                            type: integer
+                          eventId:
+                            type: integer
+                          ticketsBooked:
+                            type: integer
+                          entryTime:
+                            type: string
+                            format: date-time
+
+        '400':
+          description: Event not started yet.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Booking/Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '409':
+          description: Attendance already recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /bookings:
+    post:
+      summary: Create a booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - eventId
+              properties:
+                userId:
+                  type: integer
+                eventId:
+                  type: integer
+      responses:
+        '201':
+          description: Return the created booking record
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        $ref: '#/components/schemas/Booking'
+
+        '404':
+          description: User/Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '409':
+          description: All tickets booked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

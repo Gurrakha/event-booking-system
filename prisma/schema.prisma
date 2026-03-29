@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id               Int               @id @default(autoincrement())
+  name             String
+  email            String            @unique
+  bookings         Booking[]
+  eventAttendances EventAttendance[]
+}
+
+model Event {
+  id               Int               @id @default(autoincrement())
+  title            String
+  description      String?           @db.Text
+  date             DateTime
+  totalCapacity    Int
+  remainingTickets Int
+  bookings         Booking[]
+  eventAttendances EventAttendance[]
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  eventId     Int
+  bookingDate DateTime @default(now())
+  code        String   @unique
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@index([userId])
+  @@index([eventId])
+}
+
+model EventAttendance {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  entryTime DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@index([eventId], map: "EventAttendance_eventId_fkey")
+}
