@@ -163,7 +163,7 @@ http://localhost:5000/api/v1/docs
 ---
 
 ## Project Structure
-`
+```bash
 \---src
     |   app.ts
     |   index.ts
@@ -226,7 +226,7 @@ http://localhost:5000/api/v1/docs
             catchAsync.ts
             pagination.ts
             pick.ts
-`
+```
 
 ---
 
