@@ -16,7 +16,7 @@ This repository contains the backend implementation of a **Mini Event Management
   - [Environment Setup](#environment-setup)  
   - [Running Locally](#running-locally)  
   - [Running via Docker](#running-via-docker)  
-- [OpenAPI Documentation](#openapi-documentation)  
+- [OpenAPI Documentation And Postman Collection](#openapi-documentation-and-postman-collection)  
 - [Project Structure](#project-structure)  
 - [Notes](#notes)  
 
@@ -155,13 +155,16 @@ http://localhost:<PORT>/api/v1
 
 ---
 
-## OpenAPI Documentation
+## OpenAPI Documentation And Postman Collection
 - File: `swagger.yaml`
 - Available endpoints with request/response schemas, success, and error formats
 - where to access:
 ```bash
 http://localhost:5000/api/v1/docs
 ```
+- File: `Event Booking System.postman_collection.json`
+- It can be imported on postman
+- The variable `BASE_URL` should be : `http://localhost:5000/api/v1`
 ---
 
 ## Project Structure
