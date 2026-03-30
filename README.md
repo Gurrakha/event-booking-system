@@ -45,7 +45,8 @@ This project also includes a MySQL database and is fully dockerized.
 - **Booking Management:** Book tickets, check availability, and receive a unique code  
 - **Attendance Tracking:** Mark attendance using booking code  
 - **RESTful API:** Designed with proper HTTP methods and clean JSON responses  
-- **OpenAPI / Swagger:** Complete API documentation  
+- **OpenAPI / Swagger And Postman Collection:** Complete API documentation
+- **MySQL Schema File:** Complete MySQL Schema for this project  
 - **Docker Support:** Runs both MySQL and backend server in containers  
 - **Dynamic Environment Variables:** Configure database credentials and ports easily  
 
