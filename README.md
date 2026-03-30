@@ -117,9 +117,9 @@ cp .env.example .env
 npm install
 ```
 
-2. Generate Prisma client and apply migrations:
+2. Generate Prisma client (and if required additionally apply migrations if no migrations already exist via `npx prisma migrate dev --name init_db` command):
 ```bash
-npx prisma migrate dev --name init_db
+npx prisma generate
 ```
 
 3. Build the project (TypeScript → JS):
