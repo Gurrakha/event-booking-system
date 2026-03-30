@@ -17,7 +17,8 @@ This repository contains the backend implementation of a **Mini Event Management
   - [Running Locally](#running-locally)  
   - [Running via Docker](#running-via-docker)  
 - [OpenAPI Documentation And Postman Collection](#openapi-documentation-and-postman-collection)  
-- [Project Structure](#project-structure)  
+- [Project Structure](#project-structure)
+- [MySQL Schema](#mysql-schema)  
 - [Notes](#notes)  
 
 ---
@@ -249,12 +250,17 @@ http://localhost:5000/api/v1/docs
 
 ---
 
-## Notes
-- The backend is built as an ESM project (`"type": "module"` in package.json)
-- Prisma client is generated inside `src/generated/prisma`
-- Use `.env` to configure database credentials and ports dynamically
-- Project has a `schema.sql` file that lists the complete sql schema for this project.
+## MySQL Schema
+- File: `schema.sql`
+- This file contains the complete sql schema for this project
 - You can also generate `schema.sql` file via this command:
 ```bash
 npm run export:schema
 ```
+---
+
+## Notes
+- The backend is built as an ESM project (`"type": "module"` in package.json)
+- Prisma client is generated inside `src/generated/prisma`
+- Use `.env` to configure database credentials and ports dynamically
+- Project has a `schema.sql` file that lists the complete sql schema for this project
