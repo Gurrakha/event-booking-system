@@ -1,0 +1,348 @@
+{
+  "info": {
+    "_postman_id": "1242f77b-95d9-4f4a-8276-4dffc4b46c12",
+    "name": "Event Booking System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29223323"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Jane Doe\",\r\n    \"email\": \"janedoe@example.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/users",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "## Create User\n\nCreates a new user in the system by accepting a name and email address. On success, returns the newly created user's details along with a system-assigned ID.\n\n---\n\n### Request Body\n\nThe request body must be sent as `application/json`.\n\n| Field   | Type   | Required | Description                        |\n|---------|--------|----------|------------------------------------|\n| `name`  | string | Yes      | The full name of the user to create |\n| `email` | string | Yes      | The email address of the new user  |\n\n**Example:**\n```json\n{\n  \"name\": \"Jane Doe\",\n  \"email\": \"janedoe@example.com\"\n}\n```\n\n---\n\n### Response\n\n**Status:** `201 Created`\n\nReturns a success flag, a message, and the created user's data.\n\n| Field              | Type    | Description                              |\n|--------------------|---------|------------------------------------------|\n| `success`          | boolean | Indicates whether the request succeeded  |\n| `message`          | string  | A human-readable status message          |\n| `data.id`          | integer | The system-assigned ID of the new user   |\n| `data.name`        | string  | The name of the created user             |\n| `data.email`       | string  | The email address of the created user    |\n\n**Example:**\n```json\n{\n  \"success\": true,\n  \"message\": \"User created successfully.\",\n  \"data\": {\n    \"id\": 7,\n    \"name\": \"Jane Doe\",\n    \"email\": \"janedoe@example.com\"\n  }\n}\n```"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Paginated Users",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/users",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": null,
+                  "description": "Search user by name or email",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "page number",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "record limit per page",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_by",
+                  "value": "id",
+                  "description": "sort by column",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "order asc or desc",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "## Get Paginated Users\n\nFetches a paginated list of all registered users in the system.\n\n**Method:** `GET`  \n**URL:** `{{BASE_URL}}/users`\n\n---\n\n### Variables\n\n| Variable | Description |\n|----------|-------------|\n| `BASE_URL` | The base URL of the API server (e.g., `https://api.example.com`) |\n\n---\n\n### Response Structure\n\nA successful response returns a `200 OK` status with the following JSON structure:\n\n```json\n{\n  \"success\": true,\n  \"message\": \"Users fetched successfully.\",\n  \"data\": {\n    \"meta\": {\n      \"total\": 1,\n      \"page\": 1,\n      \"limit\": 10\n    },\n    \"data\": [\n      {\n        \"id\": 2,\n        \"name\": \"John Doe\",\n        \"email\": \"johndoe@example.com\"\n      }\n    ]\n  }\n}\n```\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `success` | `boolean` | Indicates whether the request was successful |\n| `message` | `string` | A human-readable status message |\n| `data.meta.total` | `number` | Total number of users available |\n| `data.meta.page` | `number` | Current page number |\n| `data.meta.limit` | `number` | Maximum number of users returned per page |\n| `data.data` | `array` | Array of user objects for the current page |\n| `data.data[].id` | `number` | Unique identifier of the user |\n| `data.data[].name` | `string` | Full name of the user |\n| `data.data[].email` | `string` | Email address of the user |"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Paginated User Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/users/:id/bookings",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "users",
+                ":id",
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "search by event title or description",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "page number",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "limit records per page",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_by",
+                  "value": "id",
+                  "description": "sort by column name",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "order by asc or desc",
+                  "type": "text",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "2",
+                  "description": "id of the user"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Event",
+      "item": [
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Project Hail Mary\",\r\n    \"description\": \"Science teacher Ryland Grace wakes up on a spaceship with no recollection of who he is or how he got there. As his memory slowly returns, he soon discovers he must solve the riddle behind a mysterious substance that's causing the sun to die out.\",\r\n    \"date\": \"2026-03-30\",\r\n    \"totalCapacity\": 5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/events",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "events"
+              ]
+            },
+            "description": "## Create Event\n\nCreates a new event in the system.\n\n**Method:** `POST`  \n**URL:** `{{BASE_URL}}/events`\n\n---\n\n### Request Body\n\nSend a JSON object with the following fields:\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `title` | string | Yes | The title of the event |\n| `description` | string | No | A detailed description of the event |\n| `date` | string (ISO 8601) | Yes | The date of the event (e.g. `2026-03-29`) |\n| `totalCapacity` | integer | Yes | The maximum number of attendees allowed |\n\n**Example:**\n\n``` json\n{\n  \"title\": \"Project Hail Mary\",\n  \"description\": \"Science teacher Ryland Grace wakes up on...\",\n  \"date\": \"2026-03-29\",\n  \"totalCapacity\": 5\n}\n\n ```\n\n---\n\n### Responses\n\n#### `201 Created`\n\nReturned when the event is successfully created.\n\n``` json\n{\n  \"success\": true,\n  \"message\": \"Event created successfully.\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Project Hail Mary\",\n    \"description\": \"Science teacher Ryland Grace wakes up on...\",\n    \"date\": \"2026-03-29T00:00:00.000Z\",\n    \"totalCapacity\": 5,\n    \"remainingTickets\": 5\n  }\n}\n\n ```\n\n**Response fields:**\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `success` | boolean | Indicates whether the request was successful |\n| `message` | string | A human-readable status message |\n| `data.id` | integer | The unique identifier of the created event |\n| `data.title` | string | The title of the event |\n| `data.description` | string | The description of the event |\n| `data.date` | string (ISO 8601) | The event date in UTC format |\n| `data.totalCapacity` | integer | The total number of seats available |\n| `data.remainingTickets` | integer | The number of tickets still available (equals `totalCapacity` on creation) |"
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Event Attendance",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"code\":\"b96ac02d-7216-4929-9070-563cdc72cfd1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/events/:id/attendance",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "events",
+                ":id",
+                "attendance"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Id of the event"
+                }
+              ]
+            },
+            "description": "## Mark Event Attendance\n\nMarks attendance for a specific event using a valid ticket/attendance code. This endpoint validates the provided code and records the user's entry for the event.\n\n---\n\n### Path Variable\n\n| Variable | Type | Description |\n|----------|------|-------------|\n| `id` | integer | The unique ID of the event for which attendance is being marked. |\n\n---\n\n### Request Body\n\n**Content-Type:** `application/json`\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| `code` | string (UUID) | Yes | The attendance or ticket code associated with the user's booking for the event. |\n\n**Example:**\n```json\n{\n  \"code\": \"b96ac02d-7216-4929-9070-563cdc72cfd1\"\n}\n```\n\n---\n\n### Response\n\n#### 200 OK — Attendance marked successfully\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `success` | boolean | Indicates whether the request was successful. |\n| `message` | string | A human-readable status message. |\n| `data.attendanceId` | integer | The unique ID of the attendance record created. |\n| `data.userId` | integer | The ID of the user whose attendance was recorded. |\n| `data.eventId` | integer | The ID of the event for which attendance was marked. |\n| `data.ticketsBooked` | integer | The number of tickets booked by the user for this event. |\n| `data.entryTime` | string (ISO 8601) | The timestamp at which the user's entry was recorded. |\n\n**Example:**\n```json\n{\n  \"success\": true,\n  \"message\": \"Event attendance marked successfully.\",\n  \"data\": {\n    \"attendanceId\": 2,\n    \"userId\": 7,\n    \"eventId\": 1,\n    \"ticketsBooked\": 1,\n    \"entryTime\": \"2026-03-29T13:18:25.208Z\"\n  }\n}\n```"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Paginated Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/events",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "events"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "search by title or description ",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "page number",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "limit records per page",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_by",
+                  "value": "id",
+                  "description": "sort by column",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "order asc or desc",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "## Get Paginated Events\n\nFetches a paginated list of upcoming events. Results are ordered and limited based on pagination parameters.\n\n---\n\n### Response Structure\n\n| Field | Type | Description |\n|---|---|---|\n| `success` | boolean | Indicates whether the request was successful |\n| `message` | string | A human-readable status message |\n| `data` | object | Contains pagination metadata and the list of events |\n\n#### `data.meta`\n\n| Field | Type | Description |\n|---|---|---|\n| `total` | integer | Total number of upcoming events available |\n| `page` | integer | Current page number |\n| `limit` | integer | Maximum number of events returned per page |\n\n#### `data.data` — Event Object\n\n| Field | Type | Description |\n|---|---|---|\n| `id` | integer | Unique identifier for the event |\n| `title` | string | Title of the event |\n| `description` | string | Detailed description of the event |\n| `date` | string (ISO 8601) | Scheduled date and time of the event (e.g. `2026-03-30T00:00:00.000Z`) |\n| `totalCapacity` | integer | Total number of tickets available for the event |\n| `remainingTickets` | integer | Number of tickets still available for booking |\n\n---\n\n### Example Response\n\n```json\n{\n  \"success\": true,\n  \"message\": \"Upcoming events fetched successfully.\",\n  \"data\": {\n    \"meta\": {\n      \"total\": 1,\n      \"page\": 1,\n      \"limit\": 10\n    },\n    \"data\": [\n      {\n        \"id\": 2,\n        \"title\": \"Project Hail Mary\",\n        \"description\": \"Science teacher Ryland Grace wakes up on...\",\n        \"date\": \"2026-03-30T00:00:00.000Z\",\n        \"totalCapacity\": 5,\n        \"remainingTickets\": 5\n      }\n    ]\n  }\n}\n```"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Booking",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": 7,\r\n    \"eventId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/bookings",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "bookings"
+              ]
+            },
+            "description": "## Create Booking\n\nCreates a new booking for a user against a specific event. On success, the API returns the booking details including a unique booking code and the scheduled booking date.\n\n---\n\n### Request Body\n\nThe request body must be sent as raw JSON with `Content-Type: application/json`.\n\n| Parameter | Type    | Required | Description                          |\n|-----------|---------|----------|--------------------------------------|\n| `userId`  | integer | Yes      | The ID of the user making the booking |\n| `eventId` | integer | Yes      | The ID of the event to book           |\n\n**Example Request Body**\n```json\n{\n  \"userId\": 2,\n  \"eventId\": 2\n}\n```\n\n---\n\n### Example Response\n\n**Status:** `201 Created`\n\n```json\n{\n  \"success\": true,\n  \"message\": \"Booking created successfully.\",\n  \"data\": {\n    \"id\": 3,\n    \"userId\": 2,\n    \"eventId\": 2,\n    \"bookingDate\": \"2026-03-29T13:14:33.410Z\",\n    \"code\": \"e3a37db4-fb85-4afd-a617-b55fd1374a90\"\n  }\n}\n```\n\n#### Response Fields\n\n| Field               | Type    | Description                                      |\n|---------------------|---------|--------------------------------------------------|\n| `success`           | boolean | Indicates whether the request was successful     |\n| `message`           | string  | A human-readable status message                  |\n| `data.id`           | integer | Unique identifier of the created booking         |\n| `data.userId`       | integer | ID of the user who made the booking              |\n| `data.eventId`      | integer | ID of the event that was booked                  |\n| `data.bookingDate`  | string  | ISO 8601 timestamp of when the booking was made  |\n| `data.code`         | string  | Unique UUID code assigned to this booking        |"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": ""
+    }
+  ]
+}
