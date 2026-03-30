@@ -84,6 +84,8 @@ All entities use proper primary keys, foreign keys, and constraints to ensure da
 | POST   | `/bookings`                 | Book a ticket for a user (checks availability, generates unique code) |
 | GET    | `/users/:id/bookings`       | Retrieve all bookings made by a specific user |
 | POST   | `/events/:id/attendance`    | Record attendance using booking code |
+| POST   | `/users`                    | Create a new user |
+| GET    | `/users`                    | List all users in the system |
 
 Full request and response schemas, including error responses, are available in `swagger.yaml`.
 
