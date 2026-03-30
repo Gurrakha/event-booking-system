@@ -19,5 +19,6 @@ RUN npm run build
 # Expose the port your app uses
 EXPOSE 5000
 
+
 # Command to apply migrations and start app
 CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
