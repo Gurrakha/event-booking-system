@@ -162,7 +162,7 @@ http://localhost:<PORT>/api/v1
 - Available endpoints with request/response schemas, success, and error formats
 - where to access:
 ```bash
-http://localhost:5000/api/v1/docs
+http://localhost:5000/docs
 ```
 - File: `Event Booking System.postman_collection.json`
 - It can be imported on postman
